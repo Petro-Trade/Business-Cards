@@ -1,34 +1,18 @@
 {
   "company": {
     "name": "Petro Trade Inc.",
-    "website": "https://www.example.com",
-    "phone": "+000 000 0000",
-    "street": "123 Example Street",
-    "city": "City",
-    "region": "",
-    "postcode": "",
-    "country": "Country"
+    "website": "https://www.petrotrade.ws",
+    "phone": "+231 886 400 100",
+    "street": "BRJD Bldg.,14th Street Sinkor",
+    "city": "Monrovia",
+    "country": "Liberia"
   },
   "people": [
     {
-      "id": "migo",
-      "firstName": "Migo",
-      "lastName": "Surname",
-      "title": "Business Operations & IT",
-      "mobile": "+000 000 0000",
-      "phone": "",
-      "email": "migo@example.com",
-      "linkedin": ""
+      "id": "Mohamad-Hamdan",
+      "firstName": "Mohamad",
+      "lastName": "Hamdan",
+      "title": "Chief Operations Officer",
+      "mobile": "+231 770 700 007",
+      "email": "mohamad.hamdan@petrotrade.ws"
     },
-    {
-      "id": "jane-doe",
-      "firstName": "Jane",
-      "lastName": "Doe",
-      "title": "Sales Manager",
-      "mobile": "+000 000 0001",
-      "phone": "",
-      "email": "jane.doe@example.com",
-      "linkedin": "https://www.linkedin.com/in/example"
-    }
-  ]
-}
