@@ -16,6 +16,51 @@
       "department": "Management",
       "mobile": "+231 770 700 007",
       "email": "mohamad.hamdan@petrotrade.ws"
+    },
+        {
+      "id": "john-smith",
+      "firstName": "John",
+      "lastName": "Smith",
+      "title": "Sales Representative",
+      "department": "Sales",
+      "mobile": "+231 770 000 000",
+      "email": "john.smith@petrotrade.ws"
+    },
+        {
+      "id": "john-smith",
+      "firstName": "John",
+      "lastName": "Smith",
+      "title": "CFO",
+      "department": "Finance",
+      "mobile": "+231 770 000 000",
+      "email": "john.smith@petrotrade.ws"
+    },
+        {
+      "id": "john-smith",
+      "firstName": "John",
+      "lastName": "Smith",
+      "title": "Operations Manager",
+      "department": "Retail",
+      "mobile": "+231 770 000 000",
+      "email": "john.smith@petrotrade.ws"
+    },
+        {
+      "id": "john-smith",
+      "firstName": "John",
+      "lastName": "Smith",
+      "title": "Retail",
+      "department": "Retail Manager",
+      "mobile": "+231 770 000 000",
+      "email": "john.smith@petrotrade.ws"
+    },
+        {
+      "id": "john-smith",
+      "firstName": "John",
+      "lastName": "Smith",
+      "title": "Trade Officer",
+      "department": "Trade",
+      "mobile": "+231 770 000 000",
+      "email": "john.smith@petrotrade.ws"
     }
   ]
 }
