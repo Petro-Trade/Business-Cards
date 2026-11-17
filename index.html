@@ -24,20 +24,16 @@
     overflow: hidden; box-shadow: 0 10px 30px rgba(30, 10, 40, .12);
   }
   .top {
-    background: var(--purple); padding: 28px 24px 22px; color: #fff; position: relative;
+    background: #fff; padding: 28px 24px 24px; color: var(--ink); position: relative;
+    border-top: 6px solid var(--purple);
   }
   .top::after {
-    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--green);
+    content: ""; position: absolute; left: 24px; right: 24px; bottom: 0; height: 3px;
+    background: var(--green); border-radius: 3px;
   }
-  .logo { height: 44px; display: block; background: #fff; border-radius: 8px; padding: 6px 10px; }
-  .wordmark {
-    display: inline-block; background: #fff; border-radius: 8px; padding: 6px 12px;
-    font-weight: 800; font-size: 22px; letter-spacing: -.3px;
-  }
-  .wordmark .p { color: var(--purple); }
-  .wordmark .t { color: #6a9a00; }
-  .name { font-size: 26px; font-weight: 700; margin-top: 20px; line-height: 1.15; }
-  .title { font-size: 15px; opacity: .9; margin-top: 4px; }
+  .logo { height: 72px; width: auto; display: block; margin-bottom: 22px; }
+  .name { font-size: 26px; font-weight: 700; line-height: 1.15; color: var(--ink); }
+  .title { font-size: 15px; margin-top: 4px; color: var(--purple); font-weight: 600; }
   .body { padding: 18px 24px 8px; }
   .row {
     display: flex; align-items: center; gap: 14px; padding: 12px 0;
@@ -132,8 +128,7 @@ async function init() {
 
   el.innerHTML = `
     <div class="top">
-      <img class="logo" src="logo.png" alt="${esc(c.name)}"
-           onerror="this.outerHTML='<span class=&quot;wordmark&quot;><span class=&quot;p&quot;>Petro</span> <span class=&quot;t&quot;>Trade</span></span>'">
+      <img class="logo" src="logo.png" alt="${esc(c.name)}" onerror="this.remove()">
       <div class="name">${esc(full)}</div>
       ${p.title ? `<div class="title">${esc(p.title)}</div>` : ""}
     </div>
