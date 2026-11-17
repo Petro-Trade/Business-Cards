@@ -147,7 +147,12 @@ async function init() {
     <div class="foot">${esc(c.name)}</div>`;
 
   const vcf = buildVCard(p, c);
-  document.getElementById("save").onclick = () => {
+  const ua = navigator.userAgent;
+  const isAndroid = /Android/i.test(ua);
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+
+  // Plain .vcf download (computers, and fallback)
+  const downloadVcf = () => {
     const blob = new Blob([vcf], { type: "text/vcard;charset=utf-8" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -155,6 +160,48 @@ async function init() {
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   };
+
+  // Android: open the phone's "New contact" screen pre-filled (Contacts INSERT intent)
+  const androidIntent = () => {
+    const enc = v => encodeURIComponent(String(v));
+    const extras = [];
+    const S = (k, v) => { if (v) extras.push(`S.${k}=${enc(v)}`); };
+    S("name", full);
+    S("company", c.name);
+    S("job_title", p.title);
+    if (p.mobile) { S("phone", p.mobile); extras.push("i.phone_type=2"); }          // mobile
+    const office = p.phone || c.phone;
+    if (office) {
+      if (p.mobile) { S("secondary_phone", office); extras.push("i.secondary_phone_type=3"); }
+      else { S("phone", office); extras.push("i.phone_type=3"); }                     // work
+    }
+    if (p.email) { S("email", p.email); extras.push("i.email_type=2"); }              // work
+    const addr = [c.street, c.city, c.region, c.postcode, c.country].filter(Boolean).join(", ");
+    S("postal", addr);
+    // If the intent can't open (e.g. inside some in-app browsers), fall back to the .vcf download
+    const fallback = new URL(location.href); fallback.searchParams.set("vcf", "1");
+    S("browser_fallback_url", fallback.href);
+    return "intent:#Intent;action=android.intent.action.INSERT;" +
+           "type=vnd.android.cursor.dir/raw_contact;" + extras.join(";") + ";end";
+  };
+
+  document.getElementById("save").onclick = () => {
+    if (isAndroid) {
+      location.href = androidIntent();
+    } else if (isIOS) {
+      // Navigating (not downloading) to the vCard makes iOS show "Create New Contact"
+      location.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
+    } else {
+      downloadVcf();
+    }
+  };
+  if (params.get("vcf") === "1") {
+    const hint = document.createElement("div");
+    hint.className = "foot";
+    hint.textContent = "Contact file downloaded – tap it to add to your contacts.";
+    document.querySelector(".actions").after(hint);
+    downloadVcf();
+  }
   document.getElementById("share").onclick = async () => {
     const url = location.href;
     if (navigator.share) {
