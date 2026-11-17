@@ -51,10 +51,12 @@
   .actions { padding: 8px 24px 24px; display: grid; gap: 10px; }
   button, .btn {
     font: inherit; font-weight: 600; font-size: 16px; border: 0; border-radius: 12px;
-    padding: 14px; cursor: pointer; width: 100%; text-align: center; text-decoration: none;
+    padding: 14px; cursor: pointer; width: 100%; text-align: center; text-decoration: none; display: block;
   }
   .primary { background: var(--purple); color: #fff; }
   .secondary { background: #f4e9f8; color: var(--purple); }
+  .fallback { font-size: 13px; color: var(--muted); text-align: center; line-height: 1.4; }
+  .fallback a { color: var(--purple); font-weight: 600; }
   .foot { text-align: center; font-size: 12px; color: var(--muted); padding: 0 24px 20px; }
   .msg { padding: 40px 24px; text-align: center; color: var(--muted); }
 </style>
@@ -141,7 +143,8 @@ async function init() {
       ${addr ? row("addr", "Address", addr, "https://maps.google.com/?q=" + encodeURIComponent(addr)) : ""}
     </div>
     <div class="actions">
-      <button class="primary" id="save">Save Contact</button>
+      <a class="btn primary" id="save" href="#">Save Contact</a>
+      <div class="fallback" id="fallback" hidden>Didn't open? <a href="#" id="dlvcf">Download the contact file</a>, then open it to add to your contacts.</div>
       <button class="secondary" id="share">Share this card</button>
     </div>
     <div class="foot">${esc(c.name)}</div>`;
@@ -185,16 +188,24 @@ async function init() {
            "type=vnd.android.cursor.dir/raw_contact;" + extras.join(";") + ";end";
   };
 
-  document.getElementById("save").onclick = () => {
-    if (isAndroid) {
-      location.href = androidIntent();
-    } else if (isIOS) {
-      // Navigating (not downloading) to the vCard makes iOS show "Create New Contact"
-      location.href = "data:text/vcard;charset=utf-8," + encodeURIComponent(vcf);
-    } else {
-      downloadVcf();
-    }
-  };
+  const saveBtn = document.getElementById("save");
+  const fb = document.getElementById("fallback");
+  document.getElementById("dlvcf").onclick = e => { e.preventDefault(); downloadVcf(); };
+
+  if (isAndroid) {
+    // Real link (not a script redirect) – Android browsers only open apps from a tapped link
+    saveBtn.href = androidIntent();
+  } else if (isIOS) {
+    // Open the vCard (not download) so iOS shows "Create New Contact"
+    saveBtn.href = URL.createObjectURL(new Blob([vcf], { type: "text/vcard;charset=utf-8" }));
+  } else {
+    saveBtn.href = URL.createObjectURL(new Blob([vcf], { type: "text/vcard;charset=utf-8" }));
+    saveBtn.download = `${full.replace(/\s+/g, "_")}.vcf`;
+  }
+  // If the phone ignored the tap (still on this page after 1.5s), offer the file download
+  saveBtn.addEventListener("click", () => {
+    setTimeout(() => { if (document.visibilityState === "visible") fb.hidden = false; }, 1500);
+  });
   if (params.get("vcf") === "1") {
     const hint = document.createElement("div");
     hint.className = "foot";
