@@ -9,11 +9,10 @@ Free digital business cards hosted on GitHub Pages. Scan a QR code → contact c
 | `staff.json` | **The only file you edit** – company details + one entry per person |
 | `qr.html` | Admin page – generates a QR code for everyone in staff.json (download PNG / print) |
 | `qrcode.js` | QR library (MIT licence), so no outside services are needed |
-| `logo.png` | *(add this yourself)* Petro Trade logo. If missing, a text wordmark is shown |
 
 ## Set up (once)
 1. On GitHub, create a new **public** repo, e.g. `cards` under the `ptcard` account.
-2. Upload all files from this folder (plus `logo.png`).
+2. Upload all files from this folder.
 3. Repo **Settings → Pages → Deploy from a branch → main / root** → Save.
 4. After a minute the site is live at `https://ptcard.github.io/cards/`
 
@@ -26,6 +25,7 @@ Edit `staff.json` on GitHub and commit. Each person needs a unique `id` (lowerca
   "firstName": "John",
   "lastName": "Smith",
   "title": "Operations Manager",
+  "department": "Operations",
   "mobile": "+1 555 123 4567",
   "phone": "",
   "email": "john.smith@petrotrade.com",
@@ -35,6 +35,11 @@ Edit `staff.json` on GitHub and commit. Each person needs a unique `id` (lowerca
 Leave a field as `""` to hide it. If `phone` is blank, the company phone is used as the office number.
 
 Their card is then at `https://ptcard.github.io/cards/?id=john-smith`
+
+## Departments
+`department` is optional. On `qr.html` each department appears as a folder; people with no department go in **Other**.
+Spell a department the same way for everyone in it (`Sales` and `sales` would become two folders).
+Link straight to one department: `qr.html?dept=Sales`
 
 ## Get QR codes
 Open `https://ptcard.github.io/cards/qr.html` → **Download PNG** for each person (1200 px, print quality).

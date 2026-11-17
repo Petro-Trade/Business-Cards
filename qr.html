@@ -22,15 +22,27 @@
   .btns a, .btns button { flex: 1; font: inherit; font-size: 13px; font-weight: 600; padding: 9px; border-radius: 9px;
     border: 0; cursor: pointer; text-decoration: none; background: #f4e9f8; color: var(--purple); }
   .btns .dl { background: var(--purple); color: #fff; }
-  @media print { header, .btns, .url { display: none; } .item { box-shadow: none; break-inside: avoid; } }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 20px 24px 0; font-size: 15px; }
+  .bar a { color: var(--purple); font-weight: 600; text-decoration: none; cursor: pointer; }
+  .bar .sep { color: #b5b3bd; }
+  .folders { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; padding: 24px; }
+  .folder { background: #fff; border-radius: 14px; padding: 20px; cursor: pointer; text-decoration: none; color: inherit;
+    box-shadow: 0 4px 14px rgba(0,0,0,.06); display: flex; align-items: center; gap: 14px; transition: transform .1s, box-shadow .1s; }
+  .folder:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.1); }
+  .folder svg { width: 46px; height: 46px; flex: none; }
+  .folder .fn { font-weight: 700; font-size: 16px; }
+  .folder .fc { font-size: 13px; color: #6b6b76; margin-top: 2px; }
+  .empty { padding: 40px 24px; color: #6b6b76; }
+  @media print { header, .btns, .url, .bar .back { display: none; } .item { box-shadow: none; break-inside: avoid; } }
 </style>
 </head>
 <body>
 <header>
   <h1>Digital business card QR codes</h1>
-  <p>One code per person in staff.json. Download PNG for print, or print this page.</p>
+  <p>Open a department to see its staff. Download PNG for print, or print the page.</p>
 </header>
-<div class="grid" id="grid"></div>
+<div class="bar" id="bar"></div>
+<div id="view"></div>
 <script>
 function drawQR(text, px) {
   const qr = qrcode(0, "M");          // auto version, medium error correction
@@ -47,28 +59,72 @@ function drawQR(text, px) {
   return cv;
 }
 
-(async () => {
-  const data = await (await fetch("staff.json", { cache: "no-store" })).json();
-  const base = new URL("index.html", location.href).href.replace(/index\.html$/, "");
-  const grid = document.getElementById("grid");
-  for (const p of data.people) {
-    const url = `${base}?id=${encodeURIComponent(p.id)}`;
-    const name = [p.firstName, p.lastName].filter(Boolean).join(" ");
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `<h2></h2><div class="t"></div><div class="q"></div><div class="url"></div>
-      <div class="btns"><a class="dl">Download PNG</a><a target="_blank">Open card</a></div>`;
-    div.querySelector("h2").textContent = name;
-    div.querySelector(".t").textContent = p.title || "";
-    div.querySelector(".url").textContent = url;
-    div.querySelector(".q").appendChild(drawQR(url, 180));
-    const big = drawQR(url, 1200);        // print-quality PNG
-    const dl = div.querySelector(".dl");
-    dl.href = big.toDataURL("image/png");
-    dl.download = `QR_${name.replace(/\s+/g, "_")}.png`;
-    div.querySelectorAll("a")[1].href = url;
-    grid.appendChild(div);
+const FOLDER_SVG = '<svg viewBox="0 0 48 48"><path d="M4 12a4 4 0 0 1 4-4h11l5 5h16a4 4 0 0 1 4 4v19a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#9B26B6"/><path d="M4 18h40v18a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" fill="#b65fcc"/><rect x="4" y="18" width="40" height="3" fill="#97D700"/></svg>';
+const deptOf = p => (p.department || "").trim() || "Other";
+
+let DATA, BASE;
+
+function card(p) {
+  const url = `${BASE}?id=${encodeURIComponent(p.id)}`;
+  const name = [p.firstName, p.lastName].filter(Boolean).join(" ");
+  const div = document.createElement("div");
+  div.className = "item";
+  div.innerHTML = `<h2></h2><div class="t"></div><div class="q"></div><div class="url"></div>
+    <div class="btns"><a class="dl">Download PNG</a><a target="_blank">Open card</a></div>`;
+  div.querySelector("h2").textContent = name;
+  div.querySelector(".t").textContent = p.title || "";
+  div.querySelector(".url").textContent = url;
+  div.querySelector(".q").appendChild(drawQR(url, 180));
+  const dl = div.querySelector(".dl");
+  dl.href = drawQR(url, 1200).toDataURL("image/png");   // print-quality PNG
+  dl.download = `QR_${name.replace(/\s+/g, "_")}.png`;
+  div.querySelectorAll("a")[1].href = url;
+  return div;
+}
+
+function render() {
+  const dept = new URLSearchParams(location.search).get("dept");
+  const bar = document.getElementById("bar"), view = document.getElementById("view");
+  bar.innerHTML = ""; view.innerHTML = "";
+  const groups = {};
+  for (const p of DATA.people) (groups[deptOf(p)] ||= []).push(p);
+  const names = Object.keys(groups).sort((a, b) => a === "Other" ? 1 : b === "Other" ? -1 : a.localeCompare(b));
+
+  if (!dept) {
+    bar.innerHTML = '<span><b>All departments</b></span>';
+    const wrap = document.createElement("div"); wrap.className = "folders";
+    for (const d of names) {
+      const a = document.createElement("a"); a.className = "folder";
+      a.href = `?dept=${encodeURIComponent(d)}`;
+      a.innerHTML = `${FOLDER_SVG}<div><div class="fn"></div><div class="fc"></div></div>`;
+      a.querySelector(".fn").textContent = d;
+      a.querySelector(".fc").textContent = `${groups[d].length} ${groups[d].length === 1 ? "person" : "people"}`;
+      a.onclick = e => { e.preventDefault(); history.pushState(null, "", a.href); render(); };
+      wrap.appendChild(a);
+    }
+    view.appendChild(wrap);
+    return;
   }
+
+  const back = document.createElement("a"); back.className = "back"; back.textContent = "← All departments";
+  back.href = location.pathname;
+  back.onclick = e => { e.preventDefault(); history.pushState(null, "", location.pathname); render(); };
+  const title = document.createElement("b"); title.textContent = dept;
+  const sep = document.createElement("span"); sep.className = "sep back"; sep.textContent = "/";
+  bar.append(back, sep, title);
+
+  const people = groups[dept] || [];
+  if (!people.length) { view.innerHTML = '<div class="empty">No staff in this department.</div>'; return; }
+  const grid = document.createElement("div"); grid.className = "grid";
+  people.forEach(p => grid.appendChild(card(p)));
+  view.appendChild(grid);
+}
+
+(async () => {
+  DATA = await (await fetch("staff.json", { cache: "no-store" })).json();
+  BASE = new URL("index.html", location.href).href.replace(/index\.html$/, "");
+  window.onpopstate = render;
+  render();
 })();
 </script>
 </body>
