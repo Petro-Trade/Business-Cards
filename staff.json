@@ -3,16 +3,18 @@
     "name": "Petro Trade Inc.",
     "website": "https://www.petrotrade.ws",
     "phone": "+231 886 400 100",
-    "street": "BRJD Bldg.,14th Street Sinkor",
+    "street": "BRJD Bldg., 14th Street Sinkor",
     "city": "Monrovia",
     "country": "Liberia"
   },
   "people": [
     {
-      "id": "Mohamad-Hamdan",
+      "id": "mohamad-hamdan",
       "firstName": "Mohamad",
       "lastName": "Hamdan",
       "title": "Chief Operations Officer",
       "mobile": "+231 770 700 007",
       "email": "mohamad.hamdan@petrotrade.ws"
-    },
+    }
+  ]
+}
