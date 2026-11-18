@@ -87,6 +87,7 @@ function buildVCard(p, c) {
   ];
   if (p.title)   L.push(`TITLE:${vesc(p.title)}`);
   if (p.mobile)  L.push(`TEL;TYPE=CELL:${p.mobile}`);
+  if (p.mobile2) L.push(`TEL;TYPE=CELL:${p.mobile2}`);
   if (p.phone)   L.push(`TEL;TYPE=WORK,VOICE:${p.phone}`);
   else if (c.phone) L.push(`TEL;TYPE=WORK,VOICE:${c.phone}`);
   if (p.email)   L.push(`EMAIL;TYPE=INTERNET,WORK:${p.email}`);
@@ -136,6 +137,7 @@ async function init() {
     </div>
     <div class="body">
       ${p.mobile ? row("mobile", "Mobile", p.mobile, telHref(p.mobile)) : ""}
+      ${p.mobile2 ? row("mobile", "Mobile 2", p.mobile2, telHref(p.mobile2)) : ""}
       ${(p.phone || c.phone) ? row("phone", "Office", p.phone || c.phone, telHref(p.phone || c.phone)) : ""}
       ${p.email ? row("email", "Email", p.email, "mailto:" + p.email) : ""}
       ${c.website ? row("web", "Website", c.website.replace(/^https?:\/\//, ""), c.website) : ""}
@@ -173,11 +175,15 @@ async function init() {
     S("company", c.name);
     S("job_title", p.title);
     if (p.mobile) { S("phone", p.mobile); extras.push("i.phone_type=2"); }          // mobile
+    // Android allows up to 3 numbers: phone, secondary_phone, tertiary_phone
+    const nums = [];
+    if (p.mobile)  nums.push([p.mobile, 2]);                                         // 2 = mobile
+    if (p.mobile2) nums.push([p.mobile2, 2]);
     const office = p.phone || c.phone;
-    if (office) {
-      if (p.mobile) { S("secondary_phone", office); extras.push("i.secondary_phone_type=3"); }
-      else { S("phone", office); extras.push("i.phone_type=3"); }                     // work
-    }
+    if (office)    nums.push([office, 3]);                                           // 3 = work
+    ["phone", "secondary_phone", "tertiary_phone"].forEach((k, i) => {
+      if (nums[i]) { S(k, nums[i][0]); extras.push(`i.${k}_type=${nums[i][1]}`); }
+    });
     if (p.email) { S("email", p.email); extras.push("i.email_type=2"); }              // work
     const addr = [c.street, c.city, c.region, c.postcode, c.country].filter(Boolean).join(", ");
     S("postal", addr);

@@ -16,28 +16,28 @@
       "mobile": "+231 770 700 007",
       "email": "mohamad.hamdan@petrotrade.ws"
     },
-        {
-      "id": "Ansu S.-Kanneh",
+    {
+      "id": "ansu-kanneh",
       "firstName": "Ansu S.",
       "lastName": "Kanneh",
-      "title": "Chief Adiministrative Officer",
+      "title": "Chief Administrative Officer",
       "department": "Management",
       "mobile": "+231 777 563 863",
-      "mobile": "+1 763 4475 514",
+      "mobile2": "+1 763 4475 514",
       "email": "ansu.kanneh@petrotrade.ws"
     },
-        {
-      "id": "Yoko S.-Kollie",
+    {
+      "id": "yoko-kollie",
       "firstName": "Yoko S.",
       "lastName": "Kollie",
       "title": "HR Manager",
       "department": "Management",
       "mobile": "+231 772 360 384",
-      "mobile": "+231 880 360 096",
-      "email": "Yoko.kollie@primenergies.com"      
+      "mobile2": "+231 880 360 096",
+      "email": "yoko.kollie@primenergies.com"
     },
-        {
-      "id": "Monique- M. Stewart",
+    {
+      "id": "monique-stewart",
       "firstName": "Monique M.",
       "lastName": "Stewart",
       "title": "Sales & Marketing Manager",
@@ -45,38 +45,38 @@
       "mobile": "+231 776 609 142",
       "email": "monique.stewart@petrotrade.ws"
     },
-        {
-      "id": "Abraham- T. Selah",
+    {
+      "id": "abraham-selah",
       "firstName": "Abraham T.",
       "lastName": "Selah",
       "title": "Sales & Marketing Coordinator",
       "department": "Sales",
       "mobile": "+231 776 438 937",
-      "mobile": "+231 886 138 539",    
+      "mobile2": "+231 886 138 539",
       "email": "abraham.selah@petrotrade.ws"
     },
-        {
-      "id": "Fatumata B.- Jawo",
+    {
+      "id": "fatumata-jawo",
       "firstName": "Fatumata B.",
       "lastName": "Jawo",
       "title": "Sales Officer",
       "department": "Sales",
       "mobile": "+231 770 723 344",
-      "mobile": "+231 886 723 344",    
+      "mobile2": "+231 886 723 344",
       "email": "fatumata.jawo@petrotrade.ws"
     },
-        {
-      "id": "Augustina J.-Russell",
+    {
+      "id": "augustina-russell",
       "firstName": "Augustina J.",
       "lastName": "Russell",
       "title": "Sales Officer",
       "department": "Sales",
       "mobile": "+231 770 234 115",
-      "mobile": "+231 880 347 142",    
-      "email": "augustina.russell@petrotrade.ws"          
+      "mobile2": "+231 880 347 142",
+      "email": "augustina.russell@petrotrade.ws"
     },
-        {
-      "id": "Muhammad-Javed",
+    {
+      "id": "muhammad-javed",
       "firstName": "Muhammed A.",
       "lastName": "Javed",
       "title": "Chief Financial Officer",
@@ -84,8 +84,8 @@
       "mobile": "+231 770 112 233",
       "email": "muhammad.javed@petrotrade.ws"
     },
-        {
-      "id": "Majdi-Al Hakim",
+    {
+      "id": "majdi-alhakim",
       "firstName": "Majdi",
       "lastName": "Al Hakim",
       "title": "Finance & Accounting Officer",
@@ -93,18 +93,18 @@
       "mobile": "+231 770 591 069",
       "email": "majdi.alhakim@petrotrade.ws"
     },
-        {
-      "id": "Ziad K.-Kojok",
+    {
+      "id": "ziad-kojok",
       "firstName": "Ziad K.",
       "lastName": "Kojok",
       "title": "Supply Chain Manager",
       "department": "Trade",
       "mobile": "+231 777 808 995",
-      "mobile": "+961 3 066 226",    
+      "mobile2": "+961 3 066 226",
       "email": "ziad.kojok@petrotrade.ws"
     },
-        {
-      "id": "Lassana M.-Kenneth",
+    {
+      "id": "lassana-kenneth",
       "firstName": "Lassana M.",
       "lastName": "Kenneth",
       "title": "Operations Coordinator",
@@ -112,22 +112,23 @@
       "mobile": "+231 775 894 953",
       "email": "lassana.kenneth@petrotrade.ws"
     },
-        {
-      "id": "Bobby M.- Brown",
+    {
+      "id": "bobby-brown",
       "firstName": "Bobby M.",
       "lastName": "Brown",
       "title": "General Director/Opts. Manager",
       "department": "Operations",
       "mobile": "+231 776 102 505",
       "email": "bobby.brown@primenergies.com"
-     },
-        {
-      "id": "Ghazi-Warraich",
+    },
+    {
+      "id": "ghazi-warraich",
       "firstName": "Ghazi",
       "lastName": "Warraich",
       "title": "Retail Operations Manager",
       "department": "Retail",
       "mobile": "+231 775 055 825",
-      "email": "ghazi.warraich@primenergies.com"      
+      "email": "ghazi.warraich@primenergies.com"
+    }
   ]
 }
