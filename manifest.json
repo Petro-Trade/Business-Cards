@@ -1,0 +1,11 @@
+{
+  "name": "Petro Trade Business Card",
+  "short_name": "PT Card",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#9B26B6",
+  "background_color": "#ffffff",
+  "display": "browser"
+}
