@@ -16,6 +16,26 @@
       "mobile": "+231 770 700 007",
       "email": "mohamad.hamdan@petrotrade.ws"
     },
+     {
+      "id": "ibrahim-hamdan",
+      "firstName": "Ibrahim",
+      "lastName": "Hamdan",
+      "title": "Chairman/HoBD",
+      "department": "Management",
+      "mobile": "+231 777 119 211",
+      "mobile2": "+961 3 119 211",
+      "email": "ibrahim.hamdan@petrotrade.ws"
+    },
+    {
+      "id": "marwan-hindawi",
+      "firstName": "Marwan",
+      "lastName": "Hindawi",
+      "title": "Chief Executive Officer",
+      "department": "Management",
+      "mobile": "+231 770 300 000",
+      "mobile2": "+961 3 702 202",
+      "email": "marwan.hindawi@petrotrade.ws"
+    },
     {
       "id": "ansu-kanneh",
       "firstName": "Ansu S.",
