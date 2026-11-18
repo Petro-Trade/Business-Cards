@@ -17,6 +17,16 @@
       "email": "mohamad.hamdan@petrotrade.ws"
     },
         {
+      "id": "Ansu S.-Kanneh",
+      "firstName": "Ansu S.",
+      "lastName": "kanneh",
+      "title": "Chief Adiministrative Officer",
+      "department": "Management",
+      "mobile": "+231 777 563 863",
+      "mobile": "+1 763 4475 514",
+      "email": "ansu.kanneh@petrotrade.ws"
+    },
+        {
       "id": "Monique- M. Stewart",
       "firstName": "Monique M.",
       "lastName": "Stewart",
@@ -34,6 +44,26 @@
       "mobile": "+231 776 438 937",
       "mobile": "+231 886 138 539",    
       "email": "abraham.selah@petrotrade.ws"
+    },
+        {
+      "id": "Fatumata B.- Jawo",
+      "firstName": "Fatumata B.",
+      "lastName": "Jawo",
+      "title": "Sales Officer",
+      "department": "Sales",
+      "mobile": "+231 770 723 344",
+      "mobile": "+231 886 723 344",    
+      "email": "fatumata.jawo@petrotrade.ws"
+    },
+        {
+      "id": "Augustina J.-Russell",
+      "firstName": "Augustina J.",
+      "lastName": "Russell",
+      "title": "Sales Officer",
+      "department": "Sales",
+      "mobile": "+231 770 234 115",
+      "mobile": "+231 880 347 142",    
+      "email": "augustina.russell@petrotrade.ws"          
     },
         {
       "id": "Muhammad-Javed",
