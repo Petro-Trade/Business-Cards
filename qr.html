@@ -22,6 +22,12 @@
   .btns a, .btns button { flex: 1; font: inherit; font-size: 13px; font-weight: 600; padding: 9px; border-radius: 9px;
     border: 0; cursor: pointer; text-decoration: none; background: #f4e9f8; color: var(--purple); }
   .btns .dl { background: var(--purple); color: #fff; }
+  .search { padding: 20px 24px 0; }
+  .search input { width: 100%; max-width: 520px; font: inherit; font-size: 16px; padding: 13px 16px 13px 44px; border-radius: 12px;
+    border: 1px solid #ddd8e3; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239B26B6'%3E%3Cpath d='M10 2a8 8 0 0 1 6.32 12.9l5.39 5.4-1.41 1.4-5.4-5.39A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z'/%3E%3C/svg%3E") no-repeat 14px center / 20px;
+    outline: none; -webkit-appearance: none; }
+  .search input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(155,38,182,.15); }
+  .item .dep { display: inline-block; font-size: 11px; font-weight: 700; color: var(--purple); background: #f4e9f8; border-radius: 20px; padding: 3px 10px; margin-bottom: 8px; }
   .bar { display: flex; align-items: center; gap: 10px; padding: 20px 24px 0; font-size: 15px; }
   .bar a { color: var(--purple); font-weight: 600; text-decoration: none; cursor: pointer; }
   .bar .sep { color: #b5b3bd; }
@@ -39,7 +45,7 @@
   .sbox p { font-size: 15px; color: #444; line-height: 1.4; margin: 0 0 16px; }
   .sbox button { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 10px; padding: 12px; width: 100%; background: var(--purple); color: #fff; cursor: pointer; }
   .empty { padding: 40px 24px; color: #6b6b76; }
-  @media print { header, .btns, .url, .bar .back { display: none; } .item { box-shadow: none; break-inside: avoid; } }
+  @media print { header, .btns, .url, .bar .back, .search { display: none; } .item { box-shadow: none; break-inside: avoid; } }
 </style>
 </head>
 <body>
@@ -47,6 +53,7 @@
   <h1>Digital business card QR codes</h1>
   <p>Open a department to see its staff. Download PNG for print, or print the page.</p>
 </header>
+<div class="search"><input id="q" type="search" placeholder="Search your name…" autocomplete="off" aria-label="Search staff"></div>
 <div class="bar" id="bar"></div>
 <div id="saveov" hidden onclick="if(event.target===this)this.hidden=true">
   <div class="sbox">
@@ -136,6 +143,31 @@ function render() {
   for (const p of DATA.people) (groups[deptOf(p)] ||= []).push(p);
   const names = Object.keys(groups).sort((a, b) => a === "Other" ? 1 : b === "Other" ? -1 : a.localeCompare(b));
 
+  // Search across all departments
+  const norm = x => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.\-]/g, " ");
+  const q = norm(document.getElementById("q").value).trim();
+  if (q) {
+    const words = q.split(/\s+/);
+    const hits = DATA.people.filter(p => {
+      const hay = norm([p.firstName, p.lastName, p.title, deptOf(p), p.email].join(" "));
+      return words.every(w => hay.includes(w));
+    });
+    const clear = document.createElement("a"); clear.className = "back"; clear.textContent = "← Clear search";
+    clear.onclick = e => { e.preventDefault(); document.getElementById("q").value = ""; render(); };
+    const t = document.createElement("b"); t.textContent = `${hits.length} result${hits.length === 1 ? "" : "s"}`;
+    const sep = document.createElement("span"); sep.className = "sep back"; sep.textContent = "/";
+    bar.append(clear, sep, t);
+    if (!hits.length) { view.innerHTML = '<div class="empty">No one found. Check the spelling, or open your department below.</div>'; return; }
+    const grid = document.createElement("div"); grid.className = "grid";
+    hits.forEach(p => {
+      const el = card(p);
+      const tag = document.createElement("div"); tag.className = "dep"; tag.textContent = deptOf(p);
+      el.prepend(tag); grid.appendChild(el);
+    });
+    view.appendChild(grid);
+    return;
+  }
+
   if (!dept) {
     bar.innerHTML = '<span><b>All departments</b></span>';
     const wrap = document.createElement("div"); wrap.className = "folders";
@@ -170,6 +202,7 @@ function render() {
   DATA = await (await fetch("staff.json", { cache: "no-store" })).json();
   BASE = new URL("index.html", location.href).href.replace(/index\.html$/, "");
   window.onpopstate = render;
+  let tmr; document.getElementById("q").addEventListener("input", () => { clearTimeout(tmr); tmr = setTimeout(render, 150); });
   render();
 })();
 </script>
