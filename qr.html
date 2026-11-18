@@ -55,7 +55,7 @@
 <body>
 <header>
   <h1>Digital business card QR codes</h1>
-  <p>Open a department to see its staff. Download PNG for print, or print the page.</p>
+  <p>Search your name or open your department, then tap “Open card”.</p>
 </header>
 <div class="search"><input id="q" type="search" placeholder="Search your name…" autocomplete="off" aria-label="Search staff"></div>
 <div class="bar" id="bar"></div>
@@ -125,17 +125,12 @@ function card(p) {
   const div = document.createElement("div");
   div.className = "item";
   div.innerHTML = `<h2></h2><div class="t"></div><div class="q"></div><div class="url"></div>
-    <div class="btns"><a class="dl">Download PNG</a><a target="_blank">Open card</a></div>`;
+    <div class="btns"><a class="dl" target="_blank">Open card</a></div>`;
   div.querySelector("h2").textContent = name;
   div.querySelector(".t").textContent = p.title || "";
   div.querySelector(".url").textContent = url;
   div.querySelector(".q").appendChild(drawQR(url, 180));
-  const dl = div.querySelector(".dl");
-  const fname = `QR_${name.replace(/\s+/g, "_")}.png`;
-  dl.href = "#";
-  let blob = null; qrBlob(url).then(b => blob = b);      // prepared in advance so the tap opens Share instantly
-  dl.onclick = async e => { e.preventDefault(); saveQR(blob || await qrBlob(url), fname); };
-  div.querySelectorAll("a")[1].href = url;
+  div.querySelector(".dl").href = url;
   return div;
 }
 
