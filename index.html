@@ -59,11 +59,33 @@
   .fallback a { color: var(--purple); font-weight: 600; }
   .foot { text-align: center; font-size: 12px; color: var(--muted); padding: 0 24px 20px; }
   .msg { padding: 40px 24px; text-align: center; color: var(--muted); }
+  .outline { background: #fff; color: var(--purple); border: 2px solid #e6d3ee; }
+  #qrov { position: fixed; inset: 0; background: rgba(20,10,30,.65); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+  #qrov[hidden] { display: none; }
+  .qrbox { background: #fff; border-radius: 20px; padding: 24px 22px 20px; width: 100%; max-width: 380px; text-align: center; }
+  .qrbox h3 { font-size: 20px; margin-bottom: 2px; }
+  .qrbox .sub { font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+  .qrbox img { width: 100%; max-width: 300px; display: block; margin: 0 auto 8px; -webkit-touch-callout: default; }
+  .qrbox .hint { font-size: 13px; color: var(--muted); margin: 6px 0 14px; line-height: 1.4; }
+  .qrbox .btns { display: grid; gap: 8px; }
 </style>
 </head>
 <body>
+<div id="qrov" hidden>
+  <div class="qrbox">
+    <h3 id="qrname"></h3>
+    <div class="sub">Scan to save my contact</div>
+    <img id="qrimg" alt="QR code">
+    <div class="hint">Let them scan this with their phone camera,<br>or send it as an image.</div>
+    <div class="btns">
+      <button class="primary" id="qrsend">Send / Save QR image</button>
+      <button class="secondary" id="qrclose">Close</button>
+    </div>
+  </div>
+</div>
 <div class="card" id="card"><div class="msg">Loading…</div></div>
 
+<script src="qrcode.js"></script>
 <script>
 const ICONS = {
   mobile: '<svg viewBox="0 0 24 24"><path d="M17 1H7a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm-5 21a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5-4H7V4h10v14z"/></svg>',
@@ -148,6 +170,7 @@ async function init() {
       <a class="btn primary" id="save" href="#">Save Contact</a>
       <div class="fallback" id="fallback" hidden>Didn't open? <a href="#" id="dlvcf">Download the contact file</a>, then open it to add to your contacts.</div>
       <button class="secondary" id="share">Share this card</button>
+      <button class="outline" id="showqr">Share QR Code</button>
     </div>
     <div class="foot">${esc(c.name)}</div>`;
 
@@ -219,6 +242,36 @@ async function init() {
     document.querySelector(".actions").after(hint);
     downloadVcf();
   }
+  // ---- Share QR Code ----
+  const cardUrl = location.origin + location.pathname + "?id=" + encodeURIComponent(p.id);
+  const qrCanvas = (() => {
+    const qr = qrcode(0, "M"); qr.addData(cardUrl); qr.make();
+    const n = qr.getModuleCount(), quiet = 4, cell = Math.floor(1000 / (n + quiet * 2)), size = cell * (n + quiet * 2);
+    const cv = document.createElement("canvas"); cv.width = cv.height = size;
+    const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#000";
+    for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (qr.isDark(r, k)) g.fillRect((k + quiet) * cell, (r + quiet) * cell, cell, cell);
+    return cv;
+  })();
+  const qrName = `QR_${full.replace(/\s+/g, "_")}.png`;
+  let qrFile = null;
+  qrCanvas.toBlob(b => { qrFile = new File([b], qrName, { type: "image/png" }); }, "image/png");
+  const ov = document.getElementById("qrov");
+  document.getElementById("qrname").textContent = full;
+  document.getElementById("qrimg").src = qrCanvas.toDataURL("image/png");
+  document.getElementById("showqr").onclick = () => { ov.hidden = false; };
+  document.getElementById("qrclose").onclick = () => { ov.hidden = true; };
+  ov.onclick = e => { if (e.target === ov) ov.hidden = true; };
+  document.getElementById("qrsend").onclick = () => {
+    if (!qrFile) return;
+    if (navigator.canShare && navigator.canShare({ files: [qrFile] })) {
+      navigator.share({ files: [qrFile], title: `${full} – ${c.name}` }).catch(() => {});
+    } else {
+      const a = document.createElement("a"); a.href = URL.createObjectURL(qrFile); a.download = qrName;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+    }
+  };
+
   document.getElementById("share").onclick = async () => {
     const url = location.href;
     if (navigator.share) {
