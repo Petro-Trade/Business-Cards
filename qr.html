@@ -32,6 +32,12 @@
   .folder svg { width: 46px; height: 46px; flex: none; }
   .folder .fn { font-weight: 700; font-size: 16px; }
   .folder .fc { font-size: 13px; color: #6b6b76; margin-top: 2px; }
+  #saveov { position: fixed; inset: 0; background: rgba(20,10,30,.6); display: flex; align-items: center; justify-content: center; z-index: 50; padding: 20px; }
+  #saveov[hidden] { display: none; }
+  .sbox { background: #fff; border-radius: 18px; padding: 22px; max-width: 360px; width: 100%; text-align: center; }
+  .sbox img { width: 100%; max-width: 300px; display: block; margin: 0 auto 14px; -webkit-touch-callout: default; }
+  .sbox p { font-size: 15px; color: #444; line-height: 1.4; margin: 0 0 16px; }
+  .sbox button { font: inherit; font-weight: 600; font-size: 15px; border: 0; border-radius: 10px; padding: 12px; width: 100%; background: var(--purple); color: #fff; cursor: pointer; }
   .empty { padding: 40px 24px; color: #6b6b76; }
   @media print { header, .btns, .url, .bar .back { display: none; } .item { box-shadow: none; break-inside: avoid; } }
 </style>
@@ -42,6 +48,13 @@
   <p>Open a department to see its staff. Download PNG for print, or print the page.</p>
 </header>
 <div class="bar" id="bar"></div>
+<div id="saveov" hidden onclick="if(event.target===this)this.hidden=true">
+  <div class="sbox">
+    <img alt="QR code">
+    <p><b>Press and hold the QR code</b> and choose <b>Save image</b> / <b>Add to Photos</b>.</p>
+    <button onclick="document.getElementById('saveov').hidden=true">Done</button>
+  </div>
+</div>
 <div id="view"></div>
 <script>
 function drawQR(text, px) {
@@ -64,6 +77,37 @@ const deptOf = p => (p.department || "").trim() || "Other";
 
 let DATA, BASE;
 
+const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+const IS_IOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+
+function qrBlob(url) {                       // print-quality 1200px PNG
+  return new Promise(res => drawQR(url, 1200).toBlob(res, "image/png"));
+}
+function blobDownload(blob, fname) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = fname;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+}
+function saveQR(blob, fname) {
+  if (!IS_MOBILE) { blobDownload(blob, fname); return; }
+  showSaveSheet(blob, fname);
+  // iPhone: share sheet has "Save Image" (to Photos). Android: normal download.
+  const file = new File([blob], fname, { type: "image/png" });
+  if (IS_IOS && navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file] }).catch(() => {});
+  } else {
+    try { blobDownload(blob, fname); } catch (e) {}
+  }
+}
+function showSaveSheet(blob, fname) {
+  const ov = document.getElementById("saveov");
+  const img = ov.querySelector("img");
+  if (img.src.startsWith("blob:")) URL.revokeObjectURL(img.src);
+  img.src = URL.createObjectURL(blob); img.alt = fname;
+  ov.hidden = false;
+}
+
 function card(p) {
   const url = `${BASE}?id=${encodeURIComponent(p.id)}`;
   const name = [p.firstName, p.lastName].filter(Boolean).join(" ");
@@ -76,8 +120,10 @@ function card(p) {
   div.querySelector(".url").textContent = url;
   div.querySelector(".q").appendChild(drawQR(url, 180));
   const dl = div.querySelector(".dl");
-  dl.href = drawQR(url, 1200).toDataURL("image/png");   // print-quality PNG
-  dl.download = `QR_${name.replace(/\s+/g, "_")}.png`;
+  const fname = `QR_${name.replace(/\s+/g, "_")}.png`;
+  dl.href = "#";
+  let blob = null; qrBlob(url).then(b => blob = b);      // prepared in advance so the tap opens Share instantly
+  dl.onclick = async e => { e.preventDefault(); saveQR(blob || await qrBlob(url), fname); };
   div.querySelectorAll("a")[1].href = url;
   return div;
 }
