@@ -8,6 +8,33 @@
   },
   "people": [
     {
+      "id": "ibrahim-hamdan",
+      "firstName": "Ibrahim K.",
+      "lastName": "Hamdan",
+      "title": "Chairman/HoBD",
+      "department": "Board of Directors",
+      "mobile": "+231 777 119 211",
+      "email": "ibrahim.hamdan@petrotrade.ws"
+    },
+    {
+      "id": "karim-kanneh",
+      "firstName": "A. Karim",
+      "lastName": "Kanneh",
+      "title": "Vice Chairman",
+      "department": "Board of Directors",
+      "mobile": "+231 770 115 522",
+      "email": "karim.kanneh@petrotrade.ws"
+    },
+    {
+      "id": "marwan-hindawi",
+      "firstName": "Marwan M.",
+      "lastName": "Hindawi",
+      "title": "Chief Executive Officer",
+      "department": "Executive",
+      "mobile": "+231 770 300 000",
+      "email": "marwan.hindawi@petrotrade.ws"
+    },
+    {
       "id": "mohamad-hamdan",
       "firstName": "Mohamad",
       "lastName": "Hamdan",
@@ -16,26 +43,6 @@
       "mobile": "+231 770 700 007",
       "mobile2": "+961 70 928 968",
       "email": "mohamad.hamdan@petrotrade.ws"
-    },
-     {
-      "id": "ibrahim-hamdan",
-      "firstName": "Ibrahim",
-      "lastName": "Hamdan",
-      "title": "Chairman/HoBD",
-      "department": "Management",
-      "mobile": "+231 777 119 211",
-      "mobile2": "+961 3 119 211",
-      "email": "ibrahim.hamdan@petrotrade.ws"
-    },
-    {
-      "id": "marwan-hindawi",
-      "firstName": "Marwan",
-      "lastName": "Hindawi",
-      "title": "Chief Executive Officer",
-      "department": "Management",
-      "mobile": "+231 770 300 000",
-      "mobile2": "+961 3 702 202",
-      "email": "marwan.hindawi@petrotrade.ws"
     },
     {
       "id": "ansu-kanneh",
@@ -48,14 +55,32 @@
       "email": "ansu.kanneh@petrotrade.ws"
     },
     {
+      "id": "may-hindawi",
+      "firstName": "May E.L.",
+      "lastName": "Hindawi",
+      "title": "Sr. Development Officer",
+      "department": "Management",
+      "mobile": "+231 770 556 244",
+      "email": "may.hindawi@petrotrade.ws"
+    },
+    {
       "id": "yoko-kollie",
       "firstName": "Yoko S.",
       "lastName": "Kollie",
       "title": "HR Manager",
-      "department": "Management",
+      "department": "HR & Administration",
       "mobile": "+231 772 360 384",
       "mobile2": "+231 880 360 096",
       "email": "yoko.kollie@primenergies.com"
+    },
+    {
+      "id": "hawa-sekeh",
+      "firstName": "Hawa C.",
+      "lastName": "Sekeh",
+      "title": "Administrative Assistant",
+      "department": "HR & Administration",
+      "mobile": "+231 770 172 692",
+      "email": "hawa.sekeh@petrotrade.ws"
     },
     {
       "id": "monique-stewart",
@@ -97,6 +122,23 @@
       "email": "augustina.russell@petrotrade.ws"
     },
     {
+      "id": "theodosia-carr",
+      "firstName": "Theodosia E.",
+      "lastName": "Carr",
+      "title": "Sr. Coupon Officer",
+      "department": "Sales",
+      "mobile": "+231 777 020 250",
+      "email": "theodosia.carr@petrotrade.ws"
+    },
+    {
+      "id": "johnson-gardea",
+      "firstName": "Johnson K.",
+      "lastName": "Gardea",
+      "title": "Coupon Custodian",
+      "department": "Sales",
+      "mobile": "+231 777 949 060"
+    },
+    {
       "id": "muhammad-javed",
       "firstName": "Muhammad A.",
       "lastName": "Javed",
@@ -115,6 +157,47 @@
       "email": "majdi.alhakim@petrotrade.ws"
     },
     {
+      "id": "esther-davies",
+      "firstName": "Esther S.",
+      "lastName": "Davies",
+      "title": "Tax & Compliance Officer",
+      "department": "Finance",
+      "mobile": "+231 777 989 971",
+      "email": "esther.davies@petrotrade.ws"
+    },
+    {
+      "id": "jartu-nyongbe",
+      "firstName": "Jartu B.K.",
+      "lastName": "Nyongbe",
+      "title": "Bank Officer",
+      "department": "Finance",
+      "mobile": "+231 777 551 155"
+    },
+    {
+      "id": "sedia-roberts",
+      "firstName": "Sedia",
+      "lastName": "Roberts",
+      "title": "Bank Officer",
+      "department": "Finance",
+      "mobile": "+231 776 991 634"
+    },
+    {
+      "id": "henry-gray",
+      "firstName": "Henry B.",
+      "lastName": "Gray",
+      "title": "Bank Officer",
+      "department": "Finance",
+      "mobile": "+231 776 266 981"
+    },
+    {
+      "id": "sam-yancy",
+      "firstName": "Sam F.",
+      "lastName": "Yancy",
+      "title": "Bank Officer",
+      "department": "Finance",
+      "mobile": "+231 777 690 000"
+    },
+    {
       "id": "ziad-kojok",
       "firstName": "Ziad K.",
       "lastName": "Kojok",
@@ -123,6 +206,24 @@
       "mobile": "+231 777 808 995",
       "mobile2": "+961 3 066 226",
       "email": "ziad.kojok@petrotrade.ws"
+    },
+    {
+      "id": "abraham-bailey",
+      "firstName": "Abraham S.",
+      "lastName": "Bailey",
+      "title": "Stocks and Logistics Coordinator",
+      "department": "Trade",
+      "mobile": "+231 775 720 228",
+      "email": "abraham.bailey@petrotrade.ws"
+    },
+    {
+      "id": "victor-kamara",
+      "firstName": "Victor M.",
+      "lastName": "Kamara",
+      "title": "Warehouse Assistant",
+      "department": "Operations",
+      "mobile": "+231 777 836 835",
+      "email": "victor.kamara@petrotrade.ws"
     },
     {
       "id": "lassana-kenneth",
@@ -150,6 +251,60 @@
       "department": "Retail",
       "mobile": "+231 775 055 825",
       "email": "ghazi.warraich@primenergies.com"
+    },
+    {
+      "id": "kgm-faizuddin",
+      "firstName": "KGM",
+      "lastName": "Faizuddin",
+      "title": "Retail Operations Coordinator",
+      "department": "Retail",
+      "mobile": "+231 770 199 024",
+      "email": "kgm.faizuddin@petrotrade.ws"
+    },
+    {
+      "id": "anthony-boache",
+      "firstName": "Anthony K.",
+      "lastName": "Boache",
+      "title": "Retail Operations Coordinator",
+      "department": "Retail",
+      "mobile": "+231 770 304 114",
+      "email": "anthony.boache@petrotrade.ws"
+    },
+    {
+      "id": "aqsa-naz",
+      "firstName": "Aqsa",
+      "lastName": "Naz",
+      "title": "IT Manager",
+      "department": "IT",
+      "mobile": "+231 775 137 371",
+      "email": "aqsa.naz@primenergies.com"
+    },
+    {
+      "id": "mohammed-jalloh",
+      "firstName": "Mohammed A.",
+      "lastName": "Jalloh",
+      "title": "Senior IT Officer",
+      "department": "IT",
+      "mobile": "+231 778 183 414",
+      "email": "mohammed.jalloh@petrotrade.ws"
+    },
+    {
+      "id": "alvin-willie",
+      "firstName": "Alvin",
+      "lastName": "Willie",
+      "title": "IT Officer",
+      "department": "IT",
+      "mobile": "+231 778 584 923",
+      "email": "alvin.willie@petrotrade.ws"
+    },
+    {
+      "id": "amos-tarlue",
+      "firstName": "Amos G.",
+      "lastName": "Tarlue",
+      "title": "IT Officer",
+      "department": "IT",
+      "mobile": "+231 775 456 561",
+      "email": "amos.tarlue@petrotrade.ws"
     }
   ]
 }
